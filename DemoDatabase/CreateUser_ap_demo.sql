@@ -1,4 +1,4 @@
-USE [Demo]
+﻿USE [Demo]
 GO
 
 /****** Object:  User [ap_demo]    Script Date: 17.03.20 13:09:44 ******/

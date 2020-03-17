@@ -1,4 +1,4 @@
-USE [master]
+﻿USE [master]
 GO
 
 /****** Object:  Database [Demo]    Script Date: 17.03.20 13:08:16 ******/

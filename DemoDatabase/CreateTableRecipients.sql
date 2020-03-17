@@ -1,4 +1,4 @@
-USE [Demo]
+﻿USE [Demo]
 GO
 
 /****** Object:  Table [dbo].[Recipients]    Script Date: 17.03.20 13:08:50 ******/

@@ -58,4 +58,11 @@
   <ItemGroup>
     <Folder Include="Properties" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CreateDbDemo.sql" />
+    <None Include="CreateTableRecipients.sql" />
+    <None Include="CreateTableSentMessages.sql" />
+    <None Include="CreateLogin_ap_demo.sql" />
+    <None Include="CreateUser_ap_demo.sql" />
+  </ItemGroup>
 </Project>

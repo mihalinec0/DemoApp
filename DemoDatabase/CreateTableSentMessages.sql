@@ -1,4 +1,4 @@
-USE [Demo]
+﻿USE [Demo]
 GO
 
 /****** Object:  Table [dbo].[SentMessages]    Script Date: 17.03.20 13:09:11 ******/
