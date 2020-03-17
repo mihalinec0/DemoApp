@@ -1,0 +1,374 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-xs-12 col-sm-12">
+            <div class="row" id="requiredFields">
+
+            </div>
+            <div class="row">
+                <label class="col-md-12 col-xs-12 col-sm-12" for="NameAndSurname">Ime i prezime</label>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <input id="NameAndSurname" type="text" class="form-control" placeholder="Ime i prezime..." />
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-md-12 col-xs-12 col-sm-12" for="MobileNumber">Broj mobitela</label>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <input id="MobileNumber" class="form-control" style="width:100%;" placeholder="Broj mobitela..." />
+                </div>
+            </div>
+            <div class=" row" style="margin-top:15px;">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <button type="button" class="btn btn-success float-right" id="saveRecipient">Unesi primatelja</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 mt-sm-3" id="recipientsTable"></div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <span class="float-left">Poruka:</span>
+            <span class="float-right"><span id="counter1">0</span> / <span id="counter2">160</span></span>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <textarea style="width:100%;resize:none" rows="6" id="sms" maxlength="160"></textarea>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <button type="button" id="SendSms" class="btn btn-success float-right" >Pošalji</button>
+        </div>
+    </div>
+</div>
+@section Styles{
+
+<link href="~/lib/bootstrap-sweetalert/sweetalert.css" rel="stylesheet" />
+
+
+ }
+
+
+@section Scripts{
+
+<script src="~/lib/bootstrap-sweetalert/sweetalert.js"></script>
+<script type="text/javascript">
+
+    function GetRecipients() {
+
+        $("#recipientsTable").append(
+
+            "<div id='spiner' class='d-flex justify-content-center mt-3'><span class='spinner-border' role='status' aria-hidden ='true'></span><span class='sr-only'>Priprema podataka...</span></div>"
+
+        );
+
+              $.ajax({
+                url: '@Url.Action("GetRecipients", "Home")',
+                type: 'POST'
+              }).done(function (partialView) {
+
+                  $("#recipientsTable").remove("#spiner");
+                  $('#recipientsTable').html(partialView);
+
+            })
+        }
+
+
+    $(document).ready(function () {
+
+        GetRecipients();
+
+
+        var recipient = {};
+
+        var error =
+            "<div class='alert alert-danger text-center' style='font-size:15px' >" +
+            "Ime i prezime te broj mobitela su obavezna polja</br>"+
+             "ili format  broja mobitela nije ispravan (duljina 10 znakova, samo brojevi od 0 do 9) </div > ";
+
+        $("#saveRecipient").click(function () {
+
+
+            var NameAndSurname = $("#NameAndSurname").val();
+            var MobileNumber = $("#MobileNumber").val();
+            var reg = new RegExp('^[0-9]+$');
+
+            if (NameAndSurname.length < 1 || MobileNumber.length < 10 || !reg.test(MobileNumber)) {
+
+                $("#NameAndSurname").removeClass("alert alert-danger");
+                $("#MobileNumber").removeClass("alert alert-danger");
+                $("#requiredFields").empty();
+
+
+                $("#requiredFields").append(error);
+                $("#NameAndSurname").addClass("alert alert-danger");
+                $("#MobileNumber").addClass("alert alert-danger");
+
+
+            } else {
+
+
+                recipient.NameAndSurName = NameAndSurname;
+                recipient.MobileNumber = MobileNumber;
+
+
+                  $.ajax({
+
+                      url: '@Url.Action("SaveRecipient", "Home")',
+                      data: { "recipient": recipient },
+                      type :"POST",
+                      success: function (data) {
+
+                          if (data) {
+
+                              $("#NameAndSurname").removeClass("alert alert-danger");
+                              $("#MobileNumber").removeClass("alert alert-danger");
+                              $("#requiredFields").empty();
+
+                                   swal({
+
+                                           title: "Primatelj uspješno spremljen!",
+                                            text: "Za nastavak kliknite OK!",
+                                            type: "success",
+                                            closeOnClickOutside: false,
+                                            confirmButtonColor: "#1AB394",
+                                            confirmButtonText: "OK",
+                                            closeOnConfirm: true
+
+                                        },
+                                            function (isConfirm) {
+
+                                                if (isConfirm) {
+
+                                                    GetRecipients();
+
+                                                    $("#NameAndSurname").val("");
+                                                    $("#MobileNumber").val("");
+                                                }
+
+                                            }
+
+                                        );
+
+
+
+
+                          } else {
+
+                              swal({
+
+                                  title: "Došlo je do greške!<br>Kontaktirajte administratora ili pokušajte ponovno!",
+                                  text: "Za nastavak kliknite OK!",
+                                  type: "error",
+                                  closeOnClickOutside: false,
+                                  confirmButtonColor: "#1AB394",
+                                  confirmButtonText: "OK",
+                                  closeOnConfirm: true,
+                                  html: true
+                              });
+                          }
+
+                      },
+
+                         error: function () {
+
+                             swal({
+
+                                 title: "Došlo je do greške!<br>Kontaktirajte administratora ili pokušajte ponovno!",
+                                 text: "Za nastavak kliknite OK!",
+                                 type: "error",
+                                 closeOnClickOutside: false,
+                                 confirmButtonColor: "#1AB394",
+                                 confirmButtonText: "OK",
+                                 closeOnConfirm: true,
+                                 html: true
+                             });
+
+                         }
+
+                   });
+
+
+            }
+
+        });
+
+ 
+        $("#sms").on("keyup",function () {
+
+            var len = $(this).val().length;
+
+            var limit = parseInt($(this).attr('maxlength'));
+
+            if (len <= limit) {
+
+                $("#counter1").text(len);
+
+            } 
+
+        })
+
+
+
+        $(document).on("click", "#SendSms",function () {
+
+            let fullName;
+            let mobileNumber;
+            let recipients = [];
+            let recipient = {};
+            let sms = $("#sms").val();
+
+            $("#recipientsList tbody tr").each(function () {
+
+                let checked = $(this).find('input[type="checkbox"]');
+
+
+                if (checked.prop("checked")) {
+
+                    fullName = $.trim(checked.parent().next(".NameAndSurName").text());
+                    mobileNumber = $.trim(checked.parent().parent().find(".MobileNumber").text());
+
+
+                    recipient.NameAndSurname = fullName;
+                    recipient.MobileNumber = mobileNumber;
+
+
+                    recipients.push(recipient);
+
+
+                }
+
+                recipient = {};
+                
+            })
+
+
+            if (recipients.length > 0 && sms.length > 0) {
+
+
+
+                $.ajax({
+
+                    url: '@Url.Action("SendSms", "Home")',
+                    data: { "recipients": recipients, "sms": sms },
+                    type: "POST",
+                    success: function (data) {
+
+                        if (data) {
+
+
+
+                            swal({
+
+                                title: "Poruke uspješno poslane!",
+                                text: "Za nastavak kliknite OK!",
+                                type: "success",
+                                closeOnClickOutside: false,
+                                confirmButtonColor: "#1AB394",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: true
+
+                            },
+                                function (isConfirm) {
+
+                                    if (isConfirm) {
+
+                                        $("#sms").val("");
+
+                                        $("#recipientsList tbody tr").each(function () {
+
+                                            let checked = $(this).find('input[type="checkbox"]');
+
+                                            checked.prop("checked", false);
+
+                                        })
+
+                                        location.reload();
+                                    }
+
+                                }
+
+                            );
+
+
+                        } else {
+
+
+                            swal({
+
+                                title: "Došlo je do greške!<br>Kontaktirajte administratora ili pokušajte ponovno!",
+                                text: "Za nastavak kliknite OK!",
+                                type: "error",
+                                closeOnClickOutside: false,
+                                confirmButtonColor: "#1AB394",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: true,
+                                html: true
+                            });
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        swal({
+
+                            title: "Došlo je do greške!<br>Kontaktirajte administratora ili pokušajte ponovno!",
+                            text: "Za nastavak kliknite OK!",
+                            type: "error",
+                            closeOnClickOutside: false,
+                            confirmButtonColor: "#1AB394",
+                            confirmButtonText: "OK",
+                            closeOnConfirm: true,
+                            html: true
+                        });
+
+                    }
+
+                });
+
+
+
+            } else {
+
+
+
+
+                swal({
+
+                    title: "Nema označenih primatelja<br>ili je polje za unos poruke prazno!",
+                    text: "Za nastavak kliknite OK!",
+                    type: "error",
+                    closeOnClickOutside: false,
+                    confirmButtonColor: "#1AB394",
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true,
+                    html: true
+                });
+
+
+
+
+
+            }
+
+
+
+       
+                       
+        })
+
+ 
+    })
+</script>
+
+}
