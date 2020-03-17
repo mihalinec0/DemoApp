@@ -7,14 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMS_Sender", "SMS_Sender\SM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMS_Sender.DATA", "SMS_Sender.DATA\SMS_Sender.DATA.csproj", "{67544D81-A475-4E4F-A525-21E6A8083380}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL_Skripte", "SQL_Skripte", "{C9895565-99BA-4BF8-818A-6E381437A94A}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\Desktop\SQLSKRIPTE\CreateDbDemo.sql = ..\..\..\Desktop\SQLSKRIPTE\CreateDbDemo.sql
-		..\..\..\Desktop\SQLSKRIPTE\CreateLogin_ap_demo.sql = ..\..\..\Desktop\SQLSKRIPTE\CreateLogin_ap_demo.sql
-		..\..\..\Desktop\SQLSKRIPTE\CreateTableRecipients.sql = ..\..\..\Desktop\SQLSKRIPTE\CreateTableRecipients.sql
-		..\..\..\Desktop\SQLSKRIPTE\CreateTableSentMessages.sql = ..\..\..\Desktop\SQLSKRIPTE\CreateTableSentMessages.sql
-		..\..\..\Desktop\SQLSKRIPTE\CreateUser_ap_demo.sql = ..\..\..\Desktop\SQLSKRIPTE\CreateUser_ap_demo.sql
-	EndProjectSection
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DemoDatabase", "DemoDatabase\DemoDatabase.sqlproj", "{0C8D066C-F013-4D0C-BE09-5CF8AB42F0AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +23,12 @@ Global
 		{67544D81-A475-4E4F-A525-21E6A8083380}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67544D81-A475-4E4F-A525-21E6A8083380}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67544D81-A475-4E4F-A525-21E6A8083380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C8D066C-F013-4D0C-BE09-5CF8AB42F0AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C8D066C-F013-4D0C-BE09-5CF8AB42F0AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C8D066C-F013-4D0C-BE09-5CF8AB42F0AC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0C8D066C-F013-4D0C-BE09-5CF8AB42F0AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C8D066C-F013-4D0C-BE09-5CF8AB42F0AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C8D066C-F013-4D0C-BE09-5CF8AB42F0AC}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
